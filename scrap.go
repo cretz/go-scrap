@@ -1,8 +1,8 @@
 /*
 Package scrap is a Go wrapper around the Rust
 https://github.com/quadrupleslap/scrap library. It supports reasonably fast
-capturing of raw screen pixels. The library dependency is only at runtime and
-statically compiled into the binary.
+capturing of raw screen pixels. The library dependency is only at compile time
+and statically compiled into the binary.
 
 Since go-scrap statically links the Scrap library, the scrap-sys subdirectory
 Rust project must be built in release mode before compiling this project. See

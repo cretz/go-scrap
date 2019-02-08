@@ -1,8 +1,8 @@
 # go-scrap [![GoDoc](https://godoc.org/github.com/cretz/go-scrap?status.svg)](https://godoc.org/github.com/cretz/go-scrap)
 
 go-scrap is a Go wrapper around the Rust [scrap](https://github.com/quadrupleslap/scrap) library. It supports reasonably
-fast capturing of raw screen pixels. The library dependency is only at runtime and statically compiled into the binary.
-It works on Windows, Linux, and macOS.
+fast capturing of raw screen pixels. The library dependency is only at compile time and statically compiled into the
+binary. It works on Windows, Linux, and macOS.
 
 ## Building
 

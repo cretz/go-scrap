@@ -36,6 +36,10 @@ func saveScreenshotPNG(fileName string) error {
 }
 
 func getScreenshot() (*scrap.FrameImage, error) {
+	// Make it DPI aware
+	if err := scrap.MakeDPIAware(); err != nil {
+		return nil, err
+	}
 	// Get the main display
 	d, err := scrap.PrimaryDisplay()
 	if err != nil {
