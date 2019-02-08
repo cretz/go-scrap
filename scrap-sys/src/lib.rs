@@ -108,3 +108,42 @@ pub unsafe extern "C" fn capturer_width(c: *mut scrap::Capturer) -> usize {
 pub unsafe extern "C" fn capturer_height(c: *mut scrap::Capturer) -> usize {
     (*c).height()
 }
+
+#[repr(C)]
+pub struct FrameOrErr {
+    data: *const u8,
+    len: usize,
+    would_block: u8,
+    err: *mut libc::c_char,
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn capturer_frame(c: *mut scrap::Capturer) -> FrameOrErr {
+    let mut ret = FrameOrErr {
+        data: std::ptr::null_mut(),
+        len: 0,
+        would_block: 0,
+        err: std::ptr::null_mut(),
+    };
+    let c = &mut *c;
+    match c.frame() {
+        Ok(frame) => {
+            ret.data = frame.as_ptr();
+            ret.len = frame.len();
+            std::mem::forget(frame);
+        }
+        Err(ref err) if err.kind() == std::io::ErrorKind::WouldBlock => {
+            ret.would_block = 1;
+        }
+        Err(err) => {
+            ret.err = std::ffi::CString::new(err.to_string()).unwrap().into_raw();
+        }
+    }
+    ret
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn frame_free(data: *mut u8, len: usize) {
+    let s = std::slice::from_raw_parts_mut(data, len);
+    Box::from_raw(s.as_mut_ptr());
+}

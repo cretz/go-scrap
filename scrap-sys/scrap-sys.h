@@ -39,3 +39,14 @@ void capturer_free(struct Capturer* capturer);
 size_t capturer_width(struct Capturer* capturer);
 
 size_t capturer_height(struct Capturer* capturer);
+
+typedef struct {
+    unsigned char* data;
+    size_t len;
+    char would_block;
+    char* err;
+} FrameOrErr;
+
+FrameOrErr capturer_frame(struct Capturer* capturer);
+
+void frame_free(unsigned char* data, size_t len);
