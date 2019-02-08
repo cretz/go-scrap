@@ -19,6 +19,9 @@ Note: On Windows this must use the same `gcc` that Cgo would. Go does not suppor
 [yet](https://github.com/golang/go/issues/20982). The easiest way to ensure this is with `rustup` by running
 `rustup default stable-x86_64-pc-windows-gnu` before building.
 
+Note: On Linux this needs the X11 XCB libraries with the Shm and RandR extensions. On Ubuntu (18.04+ since RandR must
+be >= 1.12) they are packages named `libx11-xcb-dev`, `libxcb-shm0-dev`, and `libxcb-randr0-dev` respectively.
+
 Now that the dependency is built, the library can be built. For example, take a screenshot:
 
     go run ./example/screenshot
