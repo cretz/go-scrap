@@ -9,8 +9,10 @@ import (
 	"github.com/cretz/go-scrap"
 )
 
+// This example creates a screenshot at screenshot.png or a given filename.
+
 func main() {
-	fileName := "temp.png"
+	fileName := "screenshot.png"
 	if len(os.Args) > 1 {
 		fileName = os.Args[1]
 	}

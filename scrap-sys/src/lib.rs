@@ -141,9 +141,3 @@ pub unsafe extern "C" fn capturer_frame(c: *mut scrap::Capturer) -> FrameOrErr {
     }
     ret
 }
-
-#[no_mangle]
-pub unsafe extern "C" fn frame_free(data: *mut u8, len: usize) {
-    let s = std::slice::from_raw_parts_mut(data, len);
-    Box::from_raw(s.as_mut_ptr());
-}

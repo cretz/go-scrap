@@ -13,6 +13,9 @@ import (
 	"github.com/cretz/go-scrap"
 )
 
+// This example records the current screen to out.mp4 or the given filename.
+// Note, the ffmpeg executable must be on the PATH.
+
 func main() {
 	fileName := "out.mp4"
 	if len(os.Args) > 1 {

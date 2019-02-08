@@ -4,7 +4,7 @@ void error_free(char* err);
 struct Display;
 
 typedef struct {
-    // These have to be freed separately
+    // These have to be freed individually
     struct Display** list;
     size_t len;
     char* err;
@@ -48,5 +48,3 @@ typedef struct {
 } FrameOrErr;
 
 FrameOrErr capturer_frame(struct Capturer* capturer);
-
-void frame_free(unsigned char* data, size_t len);
