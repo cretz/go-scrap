@@ -1,0 +1,12 @@
+[package]
+name = "scrap-sys"
+version = "0.1.0"
+authors = ["Chad Retz <chad.retz@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+scrap = "0.5"
+libc = "~0.2"
