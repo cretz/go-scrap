@@ -8,6 +8,17 @@ package scrap
 #include <stddef.h>
 #include <scrap-sys.h>
 
+#ifdef _WIN32
+	#include <Windows.h>
+	int set_dpi_aware() {
+		return SetProcessDPIAware();
+	}
+#else
+	int set_dpi_aware() {
+		return 1;
+	}
+#endif
+
 struct Display* display_list_at(struct Display** list, int index) {
 	return list[index];
 }
@@ -20,6 +31,13 @@ import (
 	"runtime"
 	"unsafe"
 )
+
+func MakeDPIAware() error {
+	if C.set_dpi_aware() == 0 {
+		return errors.New("Failed setting DPI aware")
+	}
+	return nil
+}
 
 func Displays() ([]*Display, error) {
 	list := C.display_list()
@@ -141,6 +159,7 @@ func (c *Capturer) FrameImage() (img *FrameImage, wouldBlock bool, err error) {
 	return
 }
 
+// TODO: This fails right now...
 func DisposeFrame(pix []uint8) {
 	C.frame_free((*C.uchar)(unsafe.Pointer(&pix[0])), C.size_t(len(pix)))
 }
