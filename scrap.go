@@ -14,6 +14,7 @@ package scrap
 #cgo CFLAGS: -I${SRCDIR}/scrap-sys
 #cgo LDFLAGS: -L${SRCDIR}/scrap-sys/target/release -lscrap_sys
 #cgo windows LDFLAGS: -lws2_32 -luserenv -ldxgi -ld3d11
+#cgo linux LDFLAGS: -ldl -lxcb -lxcb-shm -lxcb-randr
 
 #include <stddef.h>
 #include <scrap-sys.h>
