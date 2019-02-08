@@ -21,6 +21,6 @@ Note: On Windows this must use the same `gcc` that Cgo would. Go does not suppor
 
 Now that the dependency is built, the library can be built. For example, take a screenshot:
 
-    go run example/screenshot
+    go run ./example/screenshot
 
 See the [Godoc](https://godoc.org/github.com/cretz/go-scrap) for more documentation and examples.
