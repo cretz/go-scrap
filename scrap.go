@@ -205,10 +205,13 @@ func (c *Capturer) FrameImage() (img *FrameImage, wouldBlock bool, err error) {
 }
 
 // FrameImage is an implementation of image.Image. It carries the same ownership
-// rules and restrictions as the Capturer.Frame slice result.
+// rules and restrictions as the Capturer.Frame slice result. If you run the
+// Detach method, the owners rules and restrictions will no longer apply.
 type FrameImage struct {
 	// Pix is the raw slice of packed BGRA pixels. For more information on the
-	// format and ownership rules and restrictions, see Capturer.Frame.
+	// format and ownership rules and restrictions, see Capturer.Frame. If you
+	// run the Detach method, the owners rules and restrictions will no longer
+	// apply.
 	Pix []uint8
 	// Stride is the number of values that make up each vertical row. It is
 	// simply len(Pix) / Height. See Capturer.Frame for more info.
@@ -249,6 +252,15 @@ func (f *FrameImage) PixOffset(x, y int) int {
 func (f *FrameImage) Opaque() bool {
 	// TODO: is there ever a case where there is some transparency?
 	return true
+}
+
+// Detach simply replaces Pix with a copy so the ownership rules and regulations
+// of the underlying array no longer apply and this can be freely used without
+// ensuring the Capturer that created it is still available.
+func (f *FrameImage) Detach() {
+	newPix := make([]uint8, len(f.Pix))
+	copy(newPix, f.Pix)
+	f.Pix = newPix
 }
 
 // ToRGBAImage converts this image to a image.RGBA image. This has value because

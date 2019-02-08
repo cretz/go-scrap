@@ -53,6 +53,10 @@ func getScreenshot() (*scrap.FrameImage, error) {
 	// Get an image, trying until one available
 	for {
 		if img, _, err := c.FrameImage(); img != nil || err != nil {
+			// Detach the image so it's safe to use after this method
+			if img != nil {
+				img.Detach()
+			}
 			return img, err
 		}
 		// Sleep 17ms (~1/60th of a second)
