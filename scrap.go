@@ -19,16 +19,9 @@ package scrap
 #include <stddef.h>
 #include <scrap-sys.h>
 
-#ifdef _WIN32
-	#include <Windows.h>
-	int set_dpi_aware() {
-		return SetProcessDPIAware();
-	}
-#else
-	int set_dpi_aware() {
-		return 1;
-	}
-#endif
+int set_dpi_aware() {
+	return 1;
+}
 
 struct Display* display_list_at(struct Display** list, int index) {
 	return list[index];
@@ -104,6 +97,16 @@ func (d *Display) setOwned(owned bool) {
 // PrimaryDisplay returns the primary display of the system or an error.
 func PrimaryDisplay() (*Display, error) {
 	d := C.display_primary()
+	if d.err != nil {
+		return nil, fromCgoErr(d.err)
+	}
+	return newDisplay(d.display), nil
+}
+
+// GetDisplay returns a display on the specified index
+func GetDisplay(index int) (*Display, error) {
+	i := C.int(index)
+	d := C.get_display(i)
 	if d.err != nil {
 		return nil, fromCgoErr(d.err)
 	}

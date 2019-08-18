@@ -19,6 +19,8 @@ typedef struct {
 
 DisplayOrErr display_primary();
 
+DisplayOrErr get_display(int index);
+
 void display_free(struct Display* display);
 
 size_t display_width(struct Display* display);

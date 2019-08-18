@@ -59,6 +59,25 @@ pub unsafe extern "C" fn display_primary() -> DisplayOrErr {
 }
 
 #[no_mangle]
+pub unsafe extern "C" fn get_display(index: libc::c_int) -> DisplayOrErr {
+    let mut display = DisplayOrErr { display: std::ptr::null_mut(), err: std::ptr::null_mut() };
+    match scrap::Display::all() {
+        Ok(displays) => {
+            if index as usize < displays.len() {
+                display.display = Box::into_raw(Box::new(displays.into_iter().nth(index as usize).unwrap()))
+            }
+            else {
+                display.err = std::ffi::CString::new("No display found in this index").unwrap().into_raw();
+            }
+        }
+        Err(err) => {
+            display.err = std::ffi::CString::new(err.to_string()).unwrap().into_raw();
+        }
+    };
+    display
+}
+
+#[no_mangle]
 pub unsafe extern "C" fn display_free(d: *mut scrap::Display) {
     Box::from_raw(d);
 }
