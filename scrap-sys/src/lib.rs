@@ -63,7 +63,7 @@ pub unsafe extern "C" fn get_display(index: libc::c_int) -> DisplayOrErr {
     let mut display = DisplayOrErr { display: std::ptr::null_mut(), err: std::ptr::null_mut() };
     match scrap::Display::all() {
         Ok(displays) => {
-            if index as usize < displays.len() {
+            if (index as usize) < displays.len() {
                 display.display = Box::into_raw(Box::new(displays.into_iter().nth(index as usize).unwrap()))
             }
             else {
